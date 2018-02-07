@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">Grand Home</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="name">Name</string>
+    <string name="amount">Amount</string>
+    <string name="message">Task Message</string>
+    <string name="train_name">Train Name / No</string>
+    <string name="bus_name">Travels Name</string>
+    <string name="save">SAVE</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="seat_no">Seat No</string>
+    <string name="coach_no">Coach No</string>
+    <string name="boarding">Boarding</string>
+    <string name="pnr_no">PNR No</string>
+
+
+    <string name="new_task">New Task</string>
+    <string name="task_banking">Banking</string>
+    <string name="task_travel">Travel</string>
+
+    <!--error-->
+    <string name="name_error">Name should not be empty</string>
+    <string name="trainno_error">Train Name / No should not be empty</string>
+    <string name="amount_error">Amount should not be empty</string>
+    <string name="date_error">Date should not be empty</string>
+    <string name="time_error">Time should not be empty</string>
+    <string name="seat_no_error">Seat No should not be empty</string>
+    <string name="coach_no_error">Coach No should not be empty, Bus Window or Alice (W or A)</string>
+    <string name="boarding_error">Boarding should not be empty</string>
+    <string name="comment_error">Comment should not be empty</string>
+
+    <string-array name="task_type_array">
+        <item>Banking</item>
+        <item>Travel</item>
+    </string-array>
+
+    <string-array name="filter_array">
+        <item>All</item>
+        <item>Pending</item>
+        <item>Credit</item>
+        <item>Debit</item>
+        <item>Train</item>
+        <item>Bus</item>
+        <item>Completed</item>
+    </string-array>
+</resources>

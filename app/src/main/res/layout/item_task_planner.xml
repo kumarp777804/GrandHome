@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:id="@+id/lay_credit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <include layout="@layout/item_task_credit"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/lay_debit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        >
+        <include layout="@layout/item_task_debit"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/lay_train"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        >
+        <include layout="@layout/item_task_train"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/lay_bus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        >
+        <include layout="@layout/item_task_bus"/>
+    </RelativeLayout>
+
+
+</LinearLayout>
