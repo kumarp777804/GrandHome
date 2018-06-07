@@ -35,6 +35,9 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.buvanesh.grandhome.utils.Utilities.getBitmapFromView;
+import static com.buvanesh.grandhome.utils.Utilities.shareView;
+
 public class PaymentDetailActivity extends BaseActivity {
 
     public String Name = null;
@@ -174,46 +177,7 @@ public class PaymentDetailActivity extends BaseActivity {
     }
 
     private void getScreenShot(){
-        Bitmap bitmap = getBitmapFromView(mLayMain);
-        shareBitmap(bitmap,Name);
-    }
-
-    public Bitmap getBitmapFromView(View view) {
-        //Define a bitmap with the same size as the view
-        Bitmap returnedBitmap = Bitmap.createBitmap(view.getWidth(),      view.getHeight(), Bitmap.Config.ARGB_8888);
-        //Bind a canvas to it
-        Canvas canvas = new Canvas(returnedBitmap);
-        //Get the view's background
-        Drawable bgDrawable = view.getBackground();
-        if (bgDrawable != null)
-            //has background drawable, then draw it on the canvas
-            bgDrawable.draw(canvas);
-        else
-            //does not have background drawable, then draw white background on the canvas
-            canvas.drawColor(Color.WHITE);
-        // draw the view on the canvas
-        view.draw(canvas);
-        //return the bitmap
-        return returnedBitmap;
-    }
-
-    private void shareBitmap (Bitmap bitmap,String fileName) {
-        try {
-            File file = new File(this.getCacheDir(), fileName + ".png");
-            FileOutputStream fOut = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
-            fOut.flush();
-            fOut.close();
-            file.setReadable(true, false);
-            final Intent intent = new Intent(     android.content.Intent.ACTION_SEND);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-            intent.setType("image/png");
-            startActivity(intent);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        shareView(PaymentDetailActivity.this,mLayMain,Name);
     }
 
     public List<TaskModel> getData(boolean isCredit,String name,List<TaskModel> taskModel){

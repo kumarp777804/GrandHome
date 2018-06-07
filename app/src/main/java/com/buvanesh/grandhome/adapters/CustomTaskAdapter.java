@@ -21,6 +21,8 @@ import com.buvanesh.grandhome.viewmodel.HomeViewModel;
 
 import java.util.List;
 
+import static com.buvanesh.grandhome.utils.Utilities.shareView;
+
 /**
  * MyHealth
  * Created by buvaneshkumar_p on 11/14/2017.
@@ -75,7 +77,7 @@ public class CustomTaskAdapter  extends RecyclerView.Adapter<CustomTaskAdapter.M
                 holder.mImgTrainUpdate.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        alertDialog(mContext,mHomeViewModel,mTaskModelList.get(position).getId(),true);
+                        shareView(mContext,holder.mLayTrain,"Train");
                     }
                 });
             }else {
@@ -84,7 +86,7 @@ public class CustomTaskAdapter  extends RecyclerView.Adapter<CustomTaskAdapter.M
                 holder.mImgBusUpdate.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        alertDialog(mContext,mHomeViewModel,mTaskModelList.get(position).getId(),true);
+                        shareView(mContext,holder.mLayBus,"Bus");
                     }
                 });
             }
@@ -121,13 +123,14 @@ public class CustomTaskAdapter  extends RecyclerView.Adapter<CustomTaskAdapter.M
         holder.mTxtBusNo.setText(taskModel.getTrainNo()+" - "+taskModel.getBoardingDate());
         holder.mTxtBusBoarding.setText(taskModel.getBoarding()+" - "+taskModel.getBoardingTime());
         holder.mTxtBusAmount.setText(taskModel.getAmount());
+        holder.mTxtBusPnr.setText(taskModel.getPnrNo());
         holder.mTxtBusCoach.setText(taskModel.getCoachNo());
         holder.mTxtBusSeat.setText(taskModel.getSeatNo());
-        if(taskModel.isStatus()){
+        /*if(taskModel.isStatus()){
             holder.mImgBusUpdate.setImageResource(R.drawable.ic_completed);
         }else {
             holder.mImgBusUpdate.setImageResource(R.drawable.ic_update);
-        }
+        }*/
     }
 
     private void trainFunction(MyViewHolder holder,TaskModel taskModel) {
@@ -135,13 +138,14 @@ public class CustomTaskAdapter  extends RecyclerView.Adapter<CustomTaskAdapter.M
         holder.mTxtTrainNo.setText(taskModel.getTrainNo()+" - "+taskModel.getBoardingDate());
         holder.mTxtTrainBoarding.setText(taskModel.getBoarding()+" - "+taskModel.getBoardingTime());
         holder.mTxtTrainAmount.setText(taskModel.getAmount());
+        holder.mTxtTrainPnr.setText(taskModel.getPnrNo());
         holder.mTxtTrainCoach.setText(taskModel.getCoachNo());
         holder.mTxtTrainSeat.setText(taskModel.getSeatNo());
-        if(taskModel.isStatus()){
+        /*if(taskModel.isStatus()){
             holder.mImgTrainUpdate.setImageResource(R.drawable.ic_completed);
         }else {
             holder.mImgTrainUpdate.setImageResource(R.drawable.ic_update);
-        }
+        }*/
     }
 
     private void debitFunction(MyViewHolder holder,TaskModel taskModel) {
@@ -186,6 +190,7 @@ public class CustomTaskAdapter  extends RecyclerView.Adapter<CustomTaskAdapter.M
         public TextView mTxtTrainName;
         public TextView mTxtTrainNo;
         public TextView mTxtTrainBoarding;
+        public TextView mTxtTrainPnr;
         public TextView mTxtTrainAmount;
         public TextView mTxtTrainCoach;
         public TextView mTxtTrainSeat;
@@ -194,6 +199,7 @@ public class CustomTaskAdapter  extends RecyclerView.Adapter<CustomTaskAdapter.M
         public TextView mTxtBusName;
         public TextView mTxtBusNo;
         public TextView mTxtBusBoarding;
+        public TextView mTxtBusPnr;
         public TextView mTxtBusAmount;
         public TextView mTxtBusCoach;
         public TextView mTxtBusSeat;
@@ -221,6 +227,7 @@ public class CustomTaskAdapter  extends RecyclerView.Adapter<CustomTaskAdapter.M
             mTxtTrainNo = (TextView)itemView.findViewById(R.id.txt_train_details);
             mTxtTrainName = (TextView)itemView.findViewById(R.id.txt_train_name);
             mTxtTrainBoarding = (TextView)itemView.findViewById(R.id.txt_train_boarding);
+            mTxtTrainPnr = (TextView)itemView.findViewById(R.id.txt_train_pnr);
             mTxtTrainAmount = (TextView)itemView.findViewById(R.id.txt_train_amount);
             mTxtTrainCoach = (TextView)itemView.findViewById(R.id.txt_train_coach);
             mTxtTrainSeat = (TextView)itemView.findViewById(R.id.txt_train_seatno);
@@ -229,6 +236,7 @@ public class CustomTaskAdapter  extends RecyclerView.Adapter<CustomTaskAdapter.M
             mTxtBusNo = (TextView)itemView.findViewById(R.id.txt_bus_details);
             mTxtBusName = (TextView)itemView.findViewById(R.id.txt_bus_name);
             mTxtBusBoarding = (TextView)itemView.findViewById(R.id.txt_bus_boarding);
+            mTxtBusPnr = (TextView)itemView.findViewById(R.id.txt_bus_pnr);
             mTxtBusAmount = (TextView)itemView.findViewById(R.id.txt_bus_amount);
             mTxtBusCoach = (TextView)itemView.findViewById(R.id.txt_seat_type);
             mTxtBusSeat = (TextView)itemView.findViewById(R.id.txt_seatno);

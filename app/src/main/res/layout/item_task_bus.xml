@@ -34,16 +34,30 @@
                     android:layout_marginLeft="80dp"
                     android:layout_alignParentTop="true"
                     />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/txt_bus_details"
+                    android:layout_marginTop="@dimen/dp10"
+                    >
                 <TextView
                     android:id="@+id/txt_bus_boarding"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/txt_bus_details"
                     android:textColor="@color/colorPrimary"
                     android:textSize="12sp"
                     android:layout_marginLeft="60dp"
-                    android:layout_marginTop="@dimen/dp10"
                     />
+                    <TextView
+                        android:id="@+id/txt_bus_pnr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="12sp"
+                        android:layout_marginLeft="@dimen/dp10"
+                        />
+                </LinearLayout>
                 <TextView
                     android:id="@+id/txt_seatno"
                     android:layout_width="wrap_content"
@@ -110,7 +124,7 @@
                 android:id="@+id/img_bus_status"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/ic_update"
+                android:src="@drawable/ic_share"
                 android:layout_gravity="bottom"
                 android:layout_marginRight="@dimen/dp10"
                 android:layout_marginBottom="@dimen/dp10"
