@@ -24,7 +24,7 @@ public class CustomDialogViewModel {
     }
 
 
-    public boolean pushNewBanking(String name,String amount, String message,boolean isCredit,boolean isIndividual){
+    public boolean pushNewBanking(String name,String number,String amount, String message,boolean isCredit,boolean isIndividual){
         boolean isResult = true;
         if(isIndividual){
             name = INDIVIDUAL_NAME;
@@ -45,6 +45,7 @@ public class CustomDialogViewModel {
         if(isResult){
             TaskModel taskModel = new TaskModel();
             taskModel.setName(name);
+            taskModel.setNumber(number);
             taskModel.setAmount(amount);
             taskModel.setMessage(message);
             taskModel.setCredit(isCredit);
@@ -55,7 +56,7 @@ public class CustomDialogViewModel {
         return isResult;
     }
 
-    public boolean pushNewTravel(String name,String trainNo, String amount, String date, String time,String seat,String coach,
+    public boolean pushNewTravel(String name,String number, String trainNo, String amount, String date, String time,String seat,String coach,
                                  String boarding, String pnr,String message,boolean isTrain, boolean isIndividual){
         boolean isResult = true;
         if(isIndividual){
@@ -100,6 +101,7 @@ public class CustomDialogViewModel {
         if(isResult){
             TaskModel taskModel = new TaskModel();
             taskModel.setName(name);
+            taskModel.setNumber(number);
             taskModel.setTrainNo(trainNo);
             taskModel.setAmount(amount);
             taskModel.setBoardingTime(time);

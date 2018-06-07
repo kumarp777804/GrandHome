@@ -39,7 +39,7 @@
                 />
         </RelativeLayout>
 
-        <EditText
+        <!--<EditText
             android:id="@+id/edt_travel_name"
             android:layout_width="match_parent"
             android:layout_height="@dimen/edt_height"
@@ -47,6 +47,13 @@
             android:background="@drawable/edt_selector_bg"
             android:padding="@dimen/dp10"
             android:singleLine="true"
+            android:layout_marginBottom="@dimen/dp10"
+            />-->
+        <Spinner
+            android:id="@+id/spin_travel_name"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edt_height"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="@dimen/dp10"
             />
 

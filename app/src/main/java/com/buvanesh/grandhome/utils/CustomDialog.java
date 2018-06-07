@@ -1,11 +1,13 @@
 package com.buvanesh.grandhome.utils;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
@@ -21,13 +23,18 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 
 import com.buvanesh.grandhome.R;
+import com.buvanesh.grandhome.adapters.PaymentSpinnerAdapter;
 import com.buvanesh.grandhome.data.GrandHomeData;
+import com.buvanesh.grandhome.model.ContactModel;
+import com.buvanesh.grandhome.view.PaymentDetailActivity;
 import com.buvanesh.grandhome.viewmodel.CustomDialogViewModel;
 import com.buvanesh.grandhome.viewmodel.HomeViewModel;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import static android.support.v4.util.Preconditions.checkArgument;
 
@@ -46,6 +53,8 @@ public class CustomDialog implements CustomDialogView, DatePickerDialog.OnDateSe
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog mTimePicker;
     public static final String INDIVIDUAL_NAME = "MySelf";
+    Calendar calendar;
+    Utilities utilities = new Utilities();
 
     static CustomTaskViewHolder mViewHolder;
     CustomDialogViewModel mListener;
@@ -59,7 +68,7 @@ public class CustomDialog implements CustomDialogView, DatePickerDialog.OnDateSe
     }
 
     private void initCalendar(Context context) {
-        Calendar calendar = Calendar.getInstance();
+        calendar = Calendar.getInstance();
         int startYear = calendar.get(Calendar.YEAR);
         int starthMonth =calendar.get(Calendar.MONTH);
         int startDay = calendar.get(Calendar.DAY_OF_MONTH);
@@ -76,9 +85,10 @@ public class CustomDialog implements CustomDialogView, DatePickerDialog.OnDateSe
         myDialog.setCancelable(false);
         myDialog.setContentView(R.layout.item_custom_dialog_travel);
         mViewHolder = new CustomTaskViewHolder();
+        utilities = new Utilities();
         initCalendar(context);
         mListener = new CustomDialogViewModel(context,this);
-        mViewHolder.mEdtName = (EditText)myDialog.findViewById(R.id.edt_travel_name);
+        mViewHolder.mSpinName = (Spinner) myDialog.findViewById(R.id.spin_travel_name);
         mViewHolder.mEdtTrainNo = (EditText)myDialog.findViewById(R.id.edt_travel_train_name);
         mViewHolder.mEdtAmount = (EditText)myDialog.findViewById(R.id.edt_travel_amount);
         mViewHolder.mEdtDate = (EditText)myDialog.findViewById(R.id.edt_travel_date);
@@ -89,6 +99,12 @@ public class CustomDialog implements CustomDialogView, DatePickerDialog.OnDateSe
         mViewHolder.mEdtPNR = (EditText)myDialog.findViewById(R.id.edt_travel_pnr);
         mViewHolder.mEdtComment =(EditText)myDialog.findViewById(R.id.edt_travel_message);
         mViewHolder.mImgSave = (ImageView)myDialog.findViewById(R.id.img_travel_save);
+        final List<ContactModel> contactModels = utilities.getContactDetails((Activity) context);
+        if(contactModels.size()>0){
+            PaymentSpinnerAdapter adapter = new PaymentSpinnerAdapter(context, R.layout.item_contacts,
+                    contactModels);
+            mViewHolder.mSpinName.setAdapter(adapter);
+        }
         if(isTrain){
             mViewHolder.mEdtTrainNo.setHint(R.string.train_name);
             mViewHolder.mImgSave.setImageResource(R.drawable.ic_train);
@@ -104,9 +120,9 @@ public class CustomDialog implements CustomDialogView, DatePickerDialog.OnDateSe
             }
         });
         if(isIndividaul){
-            mViewHolder.mEdtName.setVisibility(View.GONE);
+            mViewHolder.mSpinName.setVisibility(View.GONE);
         }else {
-            mViewHolder.mEdtName.setVisibility(View.VISIBLE);
+            mViewHolder.mSpinName.setVisibility(View.VISIBLE);
         }
         mViewHolder.mEdtDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,10 +139,36 @@ public class CustomDialog implements CustomDialogView, DatePickerDialog.OnDateSe
         mViewHolder.mImgSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mListener.pushNewTravel(getValue(mViewHolder.mEdtName),getValue(mViewHolder.mEdtTrainNo),getValue(mViewHolder.mEdtAmount),getValue(mViewHolder.mEdtDate),
+                String Name = INDIVIDUAL_NAME;
+                String Number = "";
+                if(!isIndividaul&&mViewHolder.mSpinName.getAdapter()!=null){
+                    Name = contactModels.get(mViewHolder.mSpinName.getSelectedItemPosition()).getName();
+                    Number = contactModels.get(mViewHolder.mSpinName.getSelectedItemPosition()).getNumber();
+                }
+                if(mListener.pushNewTravel(Name,Number,getValue(mViewHolder.mEdtTrainNo),getValue(mViewHolder.mEdtAmount),getValue(mViewHolder.mEdtDate),
                         getValue(mViewHolder.mEdtTime),getValue(mViewHolder.mEdtSeatNo),getValue(mViewHolder.mEdtCoachNo),getValue(mViewHolder.mEdtBoarding),
                         getValue(mViewHolder.mEdtPNR),getValue(mViewHolder.mEdtComment),isTrain,isIndividaul)){
                     myDialog.dismiss();
+                    int year = datePickerDialog.getDatePicker().getYear();
+                    int month = datePickerDialog.getDatePicker().getMonth()+1;
+                    int day = datePickerDialog.getDatePicker().getDayOfMonth();
+                    String startDate = year+"-"+month+"-"+day;
+                    String message = getValue(mViewHolder.mEdtTrainNo)+" at "+getValue(mViewHolder.mEdtBoarding)+" "+
+                            getValue(mViewHolder.mEdtTime)+" , "+getValue(mViewHolder.mEdtCoachNo)+"-"+
+                            getValue(mViewHolder.mEdtSeatNo)+" PNR: "+getValue(mViewHolder.mEdtPNR)+" Msg: "+
+                            getValue(mViewHolder.mEdtComment);
+                    try {
+                        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
+                        Intent intent = new Intent(Intent.ACTION_EDIT);
+                        intent.setType("vnd.android.cursor.item/event");
+                        intent.putExtra("beginTime", date.getTime());
+                        intent.putExtra("allDay", true);
+                        intent.putExtra("rrule", "FREQ=YEARLY");
+                        intent.putExtra("endTime", date.getTime()+60*60*1000);
+                        intent.putExtra("title", message);
+                        context.startActivity(intent);
+                    }
+                    catch(Exception e){ }
                     homeViewModel.refreshList();
                 }
             }
@@ -148,19 +190,26 @@ public class CustomDialog implements CustomDialogView, DatePickerDialog.OnDateSe
         mViewHolder = new CustomTaskViewHolder();
         mListener = new CustomDialogViewModel(context,this);
         mViewHolder.mImgSave = (ImageView)myDialog.findViewById(R.id.img_banking_save);
-        mViewHolder.mEdtName = (EditText) myDialog.findViewById(R.id.edt_task_name);
+        mViewHolder.mSpinName = (Spinner) myDialog.findViewById(R.id.spin_task_name);
         mViewHolder.mEdtAmount = (EditText) myDialog.findViewById(R.id.edt_task_amount);
         mViewHolder.mEdtComment = (EditText) myDialog.findViewById(R.id.edt_task_message);
+        final List<ContactModel> contactModels = utilities.getContactDetails((Activity)context);
+        if(contactModels.size()>0){
+            PaymentSpinnerAdapter adapter = new PaymentSpinnerAdapter(context, R.layout.item_contacts,
+                    contactModels);
+            mViewHolder.mSpinName.setAdapter(adapter);
+        }
         if(isCredit){
             mViewHolder.mImgSave.setImageResource(R.drawable.ic_credit);
         }else {
             mViewHolder.mImgSave.setImageResource(R.drawable.ic_debit);
         }
         if(isIndividaul){
-            mViewHolder.mEdtName.setVisibility(View.GONE);
+            mViewHolder.mSpinName.setVisibility(View.GONE);
         }else {
-            mViewHolder.mEdtName.setVisibility(View.VISIBLE);
+            mViewHolder.mSpinName.setVisibility(View.VISIBLE);
         }
+
         ImageView imgClose = (ImageView) myDialog.findViewById(R.id.img_banking_close);
         imgClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,8 +220,13 @@ public class CustomDialog implements CustomDialogView, DatePickerDialog.OnDateSe
         mViewHolder.mImgSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if(mListener.pushNewBanking(mViewHolder.mEdtName.getText().toString(),mViewHolder.mEdtAmount.getText().toString(),
+                String Name = INDIVIDUAL_NAME;
+                String Number = "";
+                if(!isIndividaul&&mViewHolder.mSpinName.getAdapter()!=null){
+                    Name = contactModels.get(mViewHolder.mSpinName.getSelectedItemPosition()).getName();
+                    Number = contactModels.get(mViewHolder.mSpinName.getSelectedItemPosition()).getNumber();
+                }
+                if(mListener.pushNewBanking(Name,Number,mViewHolder.mEdtAmount.getText().toString(),
                         mViewHolder.mEdtComment.getText().toString(),isCredit,isIndividaul)){
                     myDialog.dismiss();
                     homeViewModel.refreshList();
@@ -262,9 +316,9 @@ public class CustomDialog implements CustomDialogView, DatePickerDialog.OnDateSe
 
     @Override
     public void NameError(String error) {
-        if(mViewHolder!=null) {
-            mViewHolder.mEdtName.setError(error);
-        }
+        /*if(mViewHolder!=null) {
+            mViewHolder.mSpinName.setError(error);
+        }*/
     }
 
     @Override
@@ -326,7 +380,7 @@ public class CustomDialog implements CustomDialogView, DatePickerDialog.OnDateSe
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
         mViewHolder.mEdtDate.setText(new StringBuilder().append(dayOfMonth+getDayOfMonthSuffix(dayOfMonth))
-                .append("  ").append(getMonthShortName(month + 1)));
+                .append("  ").append(getMonthShortName(month)));
     }
 
     @Override
@@ -343,7 +397,7 @@ public class CustomDialog implements CustomDialogView, DatePickerDialog.OnDateSe
     }
 
     static class CustomTaskViewHolder{
-        EditText mEdtName;
+        Spinner mSpinName;
         EditText mEdtAmount;
         EditText mEdtDate;
         EditText mEdtTime;
@@ -355,15 +409,6 @@ public class CustomDialog implements CustomDialogView, DatePickerDialog.OnDateSe
         EditText mEdtComment;
         ImageView mImgSave;
 
-        /*TextInputLayout mErrorName;
-        TextInputLayout mErrorAmount;
-        TextInputLayout mErrorDate;
-        TextInputLayout mErrorTime;
-        TextInputLayout mErrorTrainNo;
-        TextInputLayout mErrorSeatNo;
-        TextInputLayout mErrorCoachNo;
-        TextInputLayout mErrorBoarding;
-        TextInputLayout mErrorComment;*/
     }
 
     public static String getMonthShortName(int monthNumber)
@@ -401,5 +446,7 @@ public class CustomDialog implements CustomDialogView, DatePickerDialog.OnDateSe
             default: return "th";
         }
     }
+
+
 
 }

@@ -26,6 +26,7 @@ public class GrandHomeData extends SQLiteOpenHelper {
     public static final String TABLE_TASK = "tabletask";
     public static final String TASK_ID = "taskid";
     public static final String TASK_NAME = "taskname";
+    public static final String TASK_NUMBER = "tasknumber";
     public static final String TASK_TRAIN_NO = "tasktrainno";
     public static final String TASK_AMOUNT = "taskamount";
     public static final String TASK_DATE = "taskdate";
@@ -50,7 +51,7 @@ public class GrandHomeData extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String query = "CREATE TABLE "+TABLE_TASK+"("+TASK_ID+" INTEGER PRIMARY KEY, "+
-                TASK_NAME+" TEXT, "+TASK_TRAIN_NO+" TEXT, "+TASK_AMOUNT+" TEXT, "+TASK_DATE+" TEXT, "+TASK_MESSAGE+" TEXT, "+
+                TASK_NAME+" TEXT, "+TASK_NUMBER+" TEXT, "+TASK_TRAIN_NO+" TEXT, "+TASK_AMOUNT+" TEXT, "+TASK_DATE+" TEXT, "+TASK_MESSAGE+" TEXT, "+
                 TASK_ISBANKING+" BIT, "+TASK_ISCREDIT+" BIT, "+TASK_ISTRAIN+" BIT, "+
                 TASK_BOARDING_DATE+" TEXT, "+TASK_BOARDING_TIME+" TEXT, "+TASK_SEATNO+" TEXT, "+TASK_PNR+" TEXT, "+
                 TASK_COACHNO+" TEXT, "+TASK_BOARDING+" TEXT, "+TASK_ATTACHMENT +" BLOB, "+TASK_STATUS+" BIT )";
@@ -62,6 +63,7 @@ public class GrandHomeData extends SQLiteOpenHelper {
         database = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(TASK_NAME,taskModel.getName());
+        values.put(TASK_NUMBER,taskModel.getNumber());
         values.put(TASK_TRAIN_NO,taskModel.getTrainNo());
         values.put(TASK_AMOUNT,taskModel.getAmount());
         values.put(TASK_MESSAGE,taskModel.getMessage());
@@ -75,7 +77,7 @@ public class GrandHomeData extends SQLiteOpenHelper {
         values.put(TASK_COACHNO,taskModel.getCoachNo());
         values.put(TASK_BOARDING,taskModel.getBoarding());
         values.put(TASK_PNR,taskModel.getPnrNo());
-        values.put(TASK_DATE,String.valueOf(android.text.format.DateFormat.format("dd-MMM-YYYY",new Date())));
+        values.put(TASK_DATE,String.valueOf(android.text.format.DateFormat.format("dd-MMM",new Date())));
         database.insert(TABLE_TASK,null,values);
         database.close();
         Log.e("Database: ","inserted Successfully: "+values);
@@ -92,6 +94,7 @@ public class GrandHomeData extends SQLiteOpenHelper {
                     TaskModel taskModel = new TaskModel();
                     taskModel.setId(cursor.getInt(cursor.getColumnIndex(TASK_ID)));
                     taskModel.setName(cursor.getString(cursor.getColumnIndex(TASK_NAME)));
+                    taskModel.setNumber(cursor.getString(cursor.getColumnIndex(TASK_NUMBER)));
                     taskModel.setTrainNo(cursor.getString(cursor.getColumnIndex(TASK_TRAIN_NO)));
                     taskModel.setMessage(cursor.getString(cursor.getColumnIndex(TASK_MESSAGE)));
                     taskModel.setAmount(cursor.getString(cursor.getColumnIndex(TASK_AMOUNT)));

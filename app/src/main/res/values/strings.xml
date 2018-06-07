@@ -23,6 +23,7 @@
     <string name="new_task">New Task</string>
     <string name="task_banking">Banking</string>
     <string name="task_travel">Travel</string>
+    <string name="search_name">Search</string>
 
     <!--error-->
     <string name="name_error">Name should not be empty</string>
@@ -48,5 +49,6 @@
         <item>Train</item>
         <item>Bus</item>
         <item>Completed</item>
+        <item>Other</item>
     </string-array>
 </resources>

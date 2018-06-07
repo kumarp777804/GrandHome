@@ -8,5 +8,7 @@
     <color name="grey">#979696</color>
     <color name="accent">#E0604B</color>
 
+    <color name="light_grey">#E1E1E1</color>
+
 
 </resources>

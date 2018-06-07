@@ -12,7 +12,6 @@
         android:gravity="center"
         android:layout_margin="10dp"
         >
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,14 +21,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/task_banking"
+                android:text="@string/search_name"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:textColor="@color/colorPrimary"
                 android:layout_centerInParent="true"
                 />
             <ImageView
-                android:id="@+id/img_banking_close"
+                android:id="@+id/img_detail_close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_close_black"
@@ -37,52 +36,49 @@
                 android:layout_centerVertical="true"
                 />
         </RelativeLayout>
-
-        <!--<EditText
-            android:id="@+id/edt_task_name"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/edt_height"
-            android:hint="@string/name"
-            android:background="@drawable/edt_selector_bg"
-            android:padding="@dimen/dp10"
-            android:singleLine="true"
-            android:layout_marginBottom="@dimen/dp10"
-            />-->
-        <Spinner
-            android:id="@+id/spin_task_name"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/edt_height"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="@dimen/dp10"
+            android:layout_height="1dp"
+            android:background="@color/grey"
+            android:layout_marginBottom="10dp"
             />
 
-        <EditText
-            android:id="@+id/edt_task_amount"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/edt_height"
-            android:hint="@string/amount"
-            android:inputType="number"
-            android:background="@drawable/edt_selector_bg"
-            android:padding="@dimen/dp10"
-            android:layout_marginBottom="@dimen/dp10"
-            />
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="@dimen/dp20"
+            >
+            <Spinner
+                android:id="@+id/spin_name_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"
+                android:layout_marginLeft="@dimen/dp10"
+                android:layout_marginRight="@dimen/dp10"
+                android:layout_alignParentBottom="true"
+                />
+        </RelativeLayout>
 
-        <EditText
-            android:id="@+id/edt_task_message"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/edt_height"
-            android:padding="@dimen/dp10"
-            android:singleLine="true"
-            android:hint="@string/message"
-            android:background="@drawable/edt_selector_bg"
-            android:layout_marginBottom="@dimen/dp10"
-            />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginBottom="20dp"
+            >
 
-        <ImageView
-            android:id="@+id/img_banking_save"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_credit"
-            />
+            <ImageView
+                android:id="@+id/img_search"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_search_black"
+                android:layout_centerInParent="true"
+                />
+
+        </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

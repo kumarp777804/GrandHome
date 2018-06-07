@@ -9,6 +9,7 @@
     <dimen name="edt_height">40dp</dimen>
     <dimen name="dp5">5dp</dimen>
     <dimen name="dp10">10dp</dimen>
+    <dimen name="dp20">20dp</dimen>
     <dimen name="card_height">150dp</dimen>
 
     <dimen name="sp_20">20sp</dimen>
@@ -16,4 +17,6 @@
     <dimen name="sp_14">14sp</dimen>
 
     <dimen name="ic_status">30dp</dimen>
+
+    <dimen name="design_fab_size_normal">50dp</dimen>
 </resources>

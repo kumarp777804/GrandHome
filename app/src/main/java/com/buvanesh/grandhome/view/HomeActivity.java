@@ -1,5 +1,6 @@
 package com.buvanesh.grandhome.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.buvanesh.grandhome.R;
 import com.buvanesh.grandhome.adapters.CustomTaskAdapter;
 import com.buvanesh.grandhome.base.BaseActivity;
+import com.buvanesh.grandhome.customview.CustomFloatingButton;
 import com.buvanesh.grandhome.model.TaskModel;
 import com.buvanesh.grandhome.utils.CustomDialog;
 import com.buvanesh.grandhome.viewmodel.HomeView;
@@ -29,7 +31,7 @@ public class HomeActivity extends BaseActivity
 
     private HomeViewModel homeViewModel;
     private ProgressBar homeProgress;
-    private FloatingActionButton fab;
+    private CustomFloatingButton fab;
     private RecyclerView mRecyclerTaskPlanner;
     private CustomTaskAdapter mCustomTaskAdapter;
     private TextView mTxtNoTask;
@@ -49,7 +51,6 @@ public class HomeActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getLayout());
         intiView();
         homeViewModel = new HomeViewModel(HomeActivity.this,this,this);
     }
@@ -57,7 +58,7 @@ public class HomeActivity extends BaseActivity
     private void intiView() {
         homeProgress = (ProgressBar) findViewById(R.id.home_progress);
         mTxtNoTask = (TextView) findViewById(R.id.txt_notask);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (CustomFloatingButton) findViewById(R.id.fab);
         mRecyclerTaskPlanner = (RecyclerView) findViewById(R.id.recyler_task_list);
         mLayDetails = (LinearLayout) findViewById(R.id.lay_home_details);
         mSpinnerFilter = (Spinner) findViewById(R.id.spin_filter);
@@ -171,6 +172,9 @@ public class HomeActivity extends BaseActivity
                         showToast();
                     }
                     break;
+                case 7:
+                    startActivity(new Intent(HomeActivity.this,PaymentDetailActivity.class));
+                    break;
                 default:
                     break;
             }
@@ -261,4 +265,6 @@ public class HomeActivity extends BaseActivity
     public void showToast(){
         Toast.makeText(HomeActivity.this,"No Matches Found",Toast.LENGTH_SHORT).show();
     }
+
+
 }

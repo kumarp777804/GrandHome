@@ -10,6 +10,7 @@ public class TaskModel {
 
     private int id;
     private String name;
+    private String number;
     private String trainNo;
     private String amount;
     private String date;
@@ -25,6 +26,14 @@ public class TaskModel {
     private String boarding;
     private String pnrNo;
     private boolean status;
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
 
     public String getTrainNo() {
         return trainNo;
